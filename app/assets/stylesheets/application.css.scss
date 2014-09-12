@@ -1,0 +1,54 @@
+/* * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require bootstrap-wysihtml5
+ *= require bootstrap.min
+ *= require_self
+ *= require_tree .
+ */
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+body{ 
+  background-color: #6D748C;
+}
+
+.navbar-default {
+  background-color: #3C4663;
+  border: 0;
+}
+
+.navbar>.container-fluid .navbar-brand:hover {
+  color: white;  
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+  color: white;
+}
+
+.well {
+  background-color: #F6F7F8;
+}
+
+.users, .trips {
+}
+
+li {
+  list-style-type: none;
+}
+
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('../assets/glyphicons-halflings-regular.eot');
+  src: url('../assets/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), 
+       url('../assets/glyphicons-halflings-regular.woff') format('woff'), 
+       url('../assets/glyphicons-halflings-regular.ttf') format('truetype'), 
+       url('../assets/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}

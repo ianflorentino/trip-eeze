@@ -1,0 +1,17 @@
+.trips-main-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  vertical-align: top;
+}
+
+.trips {
+  float: right;
+}
+
+.users {
+  float: left;
+}
+
+.trip-new {
+  max-width: 750px;
+}

@@ -1,0 +1,40 @@
+<div class="trips-main-content">
+  <ul class="users col-xs-4">
+  <h1>Friends going</h1> 
+  <hr>
+  <% @trip.users.sort.each do |user| %>
+    <li>
+      <div class="well">  
+        <div class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object" src="..." alt="...">
+          </a>
+          <div class="media-body">
+            <h3 class="media-heading"><%= link_to user.name, user_path(user.id)%></h3>
+            <% user.items_in_trip(@trip).each do |item| %>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <span class="badge">$ <%= item.price%></span>
+                    <%= item.name %>
+                </li>
+                <li class="list-group-item">
+                  Total: <%= item.price %>
+                </li>
+              </ul>
+            <% end %>
+          </div>
+        </div> 
+      </div>
+    </li>
+  <% end %>
+  </ul>
+  <div class="trips col-xs-8">
+    <h1>Trip Details</h1>
+    <hr>
+    <div class="well">
+      <h1><%= @trip.name %></h1>
+      <p><%= simple_format(@trip.description) %></p>
+      <%= link_to "Edit", edit_trip_path(@trip), method: :get %>
+    </div>
+  </div>
+</div>

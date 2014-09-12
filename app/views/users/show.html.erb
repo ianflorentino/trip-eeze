@@ -1,0 +1,27 @@
+<div class="users-main-content">
+  <div class="well">  
+    <div class="media">
+      <a class="pull-left" href="#">
+        <img class="media-object" src="..." alt="...">
+      </a>
+      <div class="media-body">
+        <h1 class="media-heading"><%= @user.name %></h1>
+          <h4>Trips</h4>
+          <hr>
+          <% @user.trips.each do |trip| %>
+            <%= link_to trip.name, trip_path(trip.id) %> - <%= trip.id.generation_time %></br>
+          <% end %>
+          <h4>All Items</h4>
+          <hr>
+          <% @user.items.each do |item| %>
+            <%= link_to item.name, trip_path(item.trip_id) %> - <%= item.trip.name %></br>
+          <% end %>
+          <h4>All Friends</h4>
+          <hr>
+          <% @user.friends.each do |friend| %>
+            <%= link_to friend.name, user_path(friend) %></br>
+          <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+body {
+  text-align: center;
+  color: black;
+  position: relative;
+}
+
+
+#videobcg { 
+     position: absolute;
+     top: 0px;
+     left: 0px;
+     z-index: -200;
+     overflow: hidden;
+}
+
+
+.homepage > h1 {
+  position: absolute;
+  font-size: 125px;
+  z-index: 1;
+  color: white;
+  text-align: center;
+  right: 0;
+  left: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.homepage > p {
+  text-align: center;
+  right: 0;
+  left: 0;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1000;
+  color: white;
+}
+
+
+.homepage>p>a {
+  color:white;
+}
+
+.register-btn {
+  margin-top: 100px;
+}
+
+#myModal{
+  opacity: 0.95;
+}
