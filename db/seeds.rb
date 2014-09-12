@@ -14,19 +14,19 @@ Friendship.destroy_all
 users = User.create([
   
     {
-        name: "Bob",
+        name: "Bob Loblaw",
         email: "bob@mail.com",
         password: "bob"
     },
     {
-        name: "Chris",
-        email: "chris@mail.com",
-        password: "chris"
+        name: "Jay Son",
+        email: "jay@mail.com",
+        password: "jay"
     },
     {
-        name: "Dave",
-        email: "dave@mail.com",
-        password: "dave"
+        name: "Rue Bee",
+        email: "rue@mail.com",
+        password: "rue"
 
     }
 ])
