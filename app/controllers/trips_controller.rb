@@ -1,11 +1,14 @@
 class TripsController < ApplicationController
-  before_action :find_trip, except: [:index, :new]
+  before_action :find_trip, except: [:index, :new, :create]
 
   def index
     @trips = Trip.all
   end
   
-  def show; end
+  def show
+    @trip = Trip.find(params[:id])
+    @item = Item.new
+  end
   
   def new
     @trip = Trip.new
@@ -13,8 +16,9 @@ class TripsController < ApplicationController
 
   def create
     @trip = Trip.new(trip_params)
+    @trip.user_ids << current_user.id 
+
     if @trip.save
-      alert "You created a new trip!"
       redirect_to trip_path(@trip)
     else
       render :new

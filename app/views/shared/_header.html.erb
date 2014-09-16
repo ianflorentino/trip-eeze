@@ -13,9 +13,6 @@
 
 <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav">
-      <li><a href="#">Add a Trip</a></li>
-    </ul>
     <% if !logged_in? %>
       <%= form_tag({controller: "sessions", action: "create"}, method: "post", class: "navbar-form navbar-right form-group") do %>
         <%= text_field_tag(:email, nil, class:"form-control") %>
@@ -24,6 +21,13 @@
       <% end %> 
     <% end %>
     <% if logged_in? %>
+      <ul class="nav navbar-nav">
+        <li><%= link_to "New Trip", new_trip_path, method: "get" %></li>
+      </ul>
+      <%= form_tag({controller: "users", action: "index"}, method:"get", class: "navbar-form navbar-left form-group", role:"search") do %>
+        <%= text_field_tag :query, params[:query], class:"form-control", placeholder: "Find Friends" %>
+        <%= submit_tag("Search", class: "btn btn-primary") %>
+      <% end %>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-list"></span></a>

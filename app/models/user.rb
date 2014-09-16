@@ -25,6 +25,18 @@ class User
   end
   
   def friends
-    self.friendships.map(&:friend)
+    self.friendships.select{ |f| f.pending == false }.map(&:friend)
+  end
+  
+  def pending_friend_requests
+    self.friendships.select{ |f| f.pending == true }.map(&:friend)
+  end
+
+  def friend_requests
+    Friendship.where( pending: 'true', friend_id: self.id ).to_a.map(&:owner) 
+  end
+ 
+  def friend_requests_friendship(user)
+    Friendship.where( pending: 'true', friend_id: self.id ).to_a.select{ |f| f.owner_id == user.id }.first.id 
   end
 end

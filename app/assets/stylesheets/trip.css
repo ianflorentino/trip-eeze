@@ -15,3 +15,8 @@
 .trip-new {
   max-width: 750px;
 }
+
+h1 {
+  display: inline;
+  vertical-align: middle;
+}

@@ -18,3 +18,8 @@ body {
      z-index: -200;
      overflow: hidden;
 }
+
+.search-results {
+  max-width: 700px;
+  margin: 0 auto;
+}

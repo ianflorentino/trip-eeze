@@ -21,6 +21,16 @@
           <% @user.friends.each do |friend| %>
             <%= link_to friend.name, user_path(friend) %></br>
           <% end %>
+          <h4>Pending Friend Requests</h4>
+          <hr>
+          <% @user.pending_friend_requests.each do |friend| %>
+            <%= link_to friend.name, user_path(friend) %></br>
+          <% end %>
+          <h4>Respond to Friend Requests</h4>
+          <hr>
+          <% @user.friend_requests.each do |friend| %>
+            <%= link_to friend.name, user_path(friend) %> - <%= link_to "Add Friend", "/friendships/#{@user.friend_requests_friendship(friend)}", method: 'put' %> 
+          <% end %>
       </div>
     </div>
   </div>
