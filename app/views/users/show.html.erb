@@ -1,37 +1,55 @@
 <div class="users-main-content">
   <div class="well">  
     <div class="media">
-      <a class="pull-left" href="#">
-        <img class="media-object" src="..." alt="...">
-      </a>
+      <%= image_tag('http://i.imgur.com/UzrXKTs.gif', class: 'pull-left') %>
       <div class="media-body">
         <h1 class="media-heading"><%= @user.name %></h1>
-          <h4>Trips</h4>
-          <hr>
-          <% @user.trips.each do |trip| %>
-            <%= link_to trip.name, trip_path(trip.id) %> - <%= trip.id.generation_time %></br>
-          <% end %>
-          <h4>All Items</h4>
-          <hr>
-          <% @user.items.each do |item| %>
-            <%= link_to item.name, trip_path(item.trip_id) %> - <%= item.trip.name %></br>
-          <% end %>
-          <h4>All Friends</h4>
-          <hr>
-          <% @user.friends.each do |friend| %>
-            <%= link_to friend.name, user_path(friend) %></br>
-          <% end %>
-          <h4>Pending Friend Requests</h4>
-          <hr>
-          <% @user.pending_friend_requests.each do |friend| %>
-            <%= link_to friend.name, user_path(friend) %></br>
-          <% end %>
-          <h4>Respond to Friend Requests</h4>
-          <hr>
-          <% @user.friend_requests.each do |friend| %>
-            <%= link_to friend.name, user_path(friend) %> - <%= link_to "Add Friend", "/friendships/#{@user.friend_requests_friendship(friend)}", method: 'put' %> 
-          <% end %>
+        <p>
+          <%= @user.email %></br>
+          Venmo Verified?
+        </p>
       </div>
     </div>
+    <hr>
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="<%= 'active' if params[:tab].nil? %>">
+        <%= link_to "Trips", user_path(@user) %>
+      </li>
+      <li class="<%= 'active' if params[:tab] == 'items' %>">
+        <%= link_to "Items", user_path(@user, tab: 'items')  %>
+      </li>
+      <li class="<%= 'active' if params[:tab] == 'friends' %>">
+        <%= link_to "Friends", user_path(@user, tab: 'friends') %>
+      </li>
+    </ul>
+    <% if params[:tab].nil? %>
+      <hr>
+      <% @user.trips.each do |trip| %>
+        <%= link_to trip.name, trip_path(trip.id), method: 'get' %> - <%= trip.id.generation_time %></br>
+      <% end %>
+    <% elsif params[:tab] == 'items' %>
+      <hr>
+      <% @user.items.each do |item| %>
+        <%= link_to item.name, trip_path(item.trip_id), method: 'get' %> - <%= item.trip.name %></br>
+      <% end %>
+    <% elsif params[:tab] == 'friends' %>
+      <h4>All Friends</h4>
+      <div class="row">
+      <% @user.friends.each do |friend| %>
+        <div class="col-sm-1">
+          <%= image_tag('http://i.imgur.com/UzrXKTs.gif', height: '40', width: '40') %></br>
+          <%= link_to friend.name, user_path(friend) %>
+        </div>
+      <% end %>
+      </div>
+      <h4>Pending Friend Requests</h4>
+      <% @user.pending_friend_requests.each do |friend| %>
+        <%= link_to friend.name, user_path(friend) %></br>
+      <% end %>
+      <h4>Respond to Friend Requests</h4>
+      <% @user.friend_requests.each do |friend| %>
+        <%= link_to friend.name, user_path(friend) %> - <%= link_to "Add Friend", "/friendships/#{@user.friend_requests_friendship(friend)}", method: 'put' %></br> 
+      <% end %>
+    <% end %>
   </div>
 </div>

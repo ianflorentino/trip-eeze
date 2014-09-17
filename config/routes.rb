@@ -5,6 +5,7 @@ Tripeeze::Application.routes.draw do
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
   post '/friendships/complete_friendship', to: 'friendships#complete_friendship'
+  post '/trips/add_friend/', to: 'trips#add_friend'
 
   resources :friendships, only:[:create, :update] 
   resources :users

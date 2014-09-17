@@ -28,6 +28,24 @@ class TripsController < ApplicationController
   def edit; end
   
   def update
+    if params[:add_friends] 
+      params[:trips][:user_ids].delete("")
+      if params[:trips][:user_ids].present?
+        params[:trips][:user_ids].each do |f|
+          @trip.user_ids << BSON::ObjectId.from_string(f)
+        end
+        if @trip.update!
+          @item = Item.new
+          return redirect_to trip_path(@trip, @item)
+        else
+          render :show
+        end
+      else
+        @item = Item.new
+        return redirect_to trip_path(@trip, @item)
+      end
+    end
+   
     if @trip.update_attributes(trip_params)
       redirect_to trip_path(@trip)
     else

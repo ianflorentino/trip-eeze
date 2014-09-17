@@ -10,6 +10,9 @@ class User
   has_many :friendships, inverse_of: :owner
   has_many :items
   
+  validates_presence_of :name, :email, :password_digest
+  validates_uniqueness_of :email
+
   ## FOR AUTHENTICATION
   def password=(new_password)
     self.password_digest = BCrypt::Password.create(new_password)    
@@ -28,6 +31,10 @@ class User
     self.friendships.select{ |f| f.pending == false }.map(&:friend)
   end
   
+  def friends_not_on_trip(trip)
+    self.friends.select{ |f| !f.trip_ids.include?(trip.id) }
+  end
+
   def pending_friend_requests
     self.friendships.select{ |f| f.pending == true }.map(&:friend)
   end

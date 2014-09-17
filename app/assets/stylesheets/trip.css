@@ -1,5 +1,5 @@
 .trips-main-content {
-  max-width: 1000px;
+  max-width: 1080px;
   margin: 0 auto;
   vertical-align: top;
 }
@@ -20,3 +20,17 @@ h1 {
   display: inline;
   vertical-align: middle;
 }
+
+.modal .modal-body {
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+.add-friend {
+  display: inline;
+}
+
+#map {
+  height: 200px;
+}
+

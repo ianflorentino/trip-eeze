@@ -1,55 +1,67 @@
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiiJGJ50Z6p1eQH-cGw4mCj5p-3zlZrtE"></script>
+<script type="text/javascript">
+      function initialize() {
+        var mapOptions = {
+          center: { lat: -34.397, lng: 150.644},
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          styles: [{"featureType":"road","stylers":[{"hue":"#5e00ff"},{"saturation":-79}]},{"featureType":"poi","stylers":[{"saturation":-78},{"hue":"#6600ff"},{"lightness":-47},{"visibility":"off"}]},{"featureType":"road.local","stylers":[{"lightness":22}]},{"featureType":"landscape","stylers":[{"hue":"#6600ff"},{"saturation":-11}]},{},{},{"featureType":"water","stylers":[{"saturation":-65},{"hue":"#1900ff"},{"lightness":8}]},{"featureType":"road.local","stylers":[{"weight":1.3},{"lightness":30}]},{"featureType":"transit","stylers":[{"visibility":"simplified"},{"hue":"#5e00ff"},{"saturation":-16}]},{"featureType":"transit.line","stylers":[{"saturation":-72}]},{}]
+        };
+        var map = new google.maps.Map(document.getElementById('map'),
+            mapOptions);
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+</script>
 <div class="trips-main-content">
-  <ul class="users col-xs-4">
+  <ul class="users col-xs-5">
   <h1>Friends going</h1> 
   <hr>
     <li>
-      <div class="well">
+      <div class="well well-sm">
         <div class="media">
-          <a class="pull-left" href="#">
-            <img class="media-object" src="..." alt="...">
-          </a>
+          <%= image_tag('http://i.imgur.com/UzrXKTs.gif', class: 'pull-left', height: '60', width: '60') %>
           <div class="media-body">
             <h3 class="media-heading">You</h3>
-            <% current_user.items_in_trip(@trip).each do |item| %>
               <ul class="list-group">
+                <% current_user.items_in_trip(@trip).each do |item| %>
                 <li class="list-group-item">
                   <span class="badge">$ <%= item.price%></span> <%= item.name %>
                 </li>
-                <li class="list-group-item">
-                  Total: <%= item.price %>
-                </li>
+                <% end %>
+                <div class="list-group-item">
+                  Total: $<%= current_user.items_in_trip(@trip).map(&:price).reduce(&:+) %>
+                </div>
               </ul>
-            <% end %>
           </div>
         </div>
       </div>
     </li>
-  <% @trip.users.select{ |u| u != current_user }.each do |user| %>
+  <% exclude_current_user(@trip.users).each do |user| %>
     <li>
-      <div class="well">  
+      <div class="well well-sm">  
         <div class="media">
-          <a class="pull-left" href="#">
-            <img class="media-object" src="..." alt="...">
-          </a>
+          <%= link_to(user_path(user), class: 'pull-left') do %>
+            <%= image_tag('http://i.imgur.com/UzrXKTs.gif', height: '60', width: '60') %>
+          <% end %>
           <div class="media-body">
-            <h3 class="media-heading"><%= link_to user.name, user_path(user.id)%></h3>
-            <% user.items_in_trip(@trip).each do |item| %>
+            <h4 class="media-heading"><%= user.name %></h4>
               <ul class="list-group">
+                <% user.items_in_trip(@trip).each do |item| %>
                 <li class="list-group-item">
                   <span class="badge">$ <%= item.price%></span> <%= item.name %>
                 </li>
-                <li class="list-group-item">
-                  Total: <%= item.price %>
-                </li>
+                <% end %>
+                <div class="list-group-item">
+                  Total: $<%= user.items_in_trip(@trip).map(&:price).reduce(&:+) %>
+                </div>
               </ul>
-            <% end %>
           </div>
         </div> 
       </div>
     </li>
   <% end %>
   </ul>
-  <div class="trips col-xs-8">
+  <div class="trips col-xs-7">
     <h1>
       Trip Details
     </h1>
@@ -88,7 +100,7 @@
     </div>
     <!-- Button trigger modal -->
     <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal2">
-      Add Friends
+      Add Friends to Trip
     </button>
 
     <!-- Modal -->
@@ -97,24 +109,49 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">Add Friends</h4>
+            <h4 class="modal-title" id="myModalLabel">Add Friends to Trip</h4>
           </div>
           <div class="modal-body">
-            
-            
+            <%= form_tag({controller: 'trips', action: 'update'}, method: 'put', add_friends: 'true') do |t| %>
+              <% hidden_field_tag :id, @trip.id %>  
+              <%= hidden_field_tag :add_friends, 'true' %>  
+              <%= collection_check_boxes(:trips, :user_ids, current_user.friends_not_on_trip(@trip), :id, :name) do |b| %>
+              <%= b.check_box %> <%= image_tag('http://i.imgur.com/UzrXKTs.gif', height: '40', width: '40') %> <%= b.label %></br>
+              <hr>
+              <% end %>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+              <%= submit_tag "Add", class: "btn btn-primary" %>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
     <hr>
-    <div class="well">
+    <div class="well well-sm">
       <h1><%= @trip.name %></h1>
-      <p><%= simple_format(@trip.description) %></p>
-      <%= link_to "Edit", edit_trip_path(@trip), method: :get %>
+      <hr>
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="<%= 'active' if params[:tab].nil? %>">
+          <%= link_to "Description", trip_path(@trip) %>
+        </li>
+        <li class="<%= 'active' if params[:tab] == 'map' %>">
+          <%= link_to "Map", trip_path(@trip, tab: 'map'), method: 'get' %>
+        </li>
+        <li class="<%= 'active' if params[:tab] == 'media' %>">
+          <%= link_to "Media", trip_path(@trip, tab: 'media') %>
+        </li>
+      </ul>
+      <% if params[:tab].nil? %>
+        <p><%= simple_format(@trip.description) %></p>
+        <%= link_to "Edit", edit_trip_path(@trip), method: :get %>
+      <% elsif params[:tab] == 'map' %>
+        <h4>Location Address</h4>
+        <div id="map">
+        </div>
+      <% elsif params[:tab] == 'media' %>
+      <% end %>
     </div>
   </div>
 </div>
