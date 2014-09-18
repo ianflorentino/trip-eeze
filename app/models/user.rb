@@ -13,7 +13,7 @@ class User
   validates_presence_of :name, :email, :password_digest
   validates_uniqueness_of :email
 
-  ## FOR AUTHENTICATION
+  ###### FOR AUTHENTICATION ######
   def password=(new_password)
     self.password_digest = BCrypt::Password.create(new_password)    
   end
@@ -22,13 +22,22 @@ class User
     input_password && BCrypt::Password.new(self.password_digest) == input_password ? self : false
   end
 
-  ##FOR VIEWS
+  ###### FOR VIEWS ######
   def items_in_trip(trip)
     self.items.select{ |i| i.trip_id == trip.id }
   end
   
+  def item_total(trip)
+    self.items_in_trip(trip).map(&:price).reduce(&:+)
+  end
+ 
+  ###### FRIENDSHIP METHODS ###### 
   def friends
     self.friendships.select{ |f| f.pending == false }.map(&:friend)
+  end
+
+  def friend?(user)
+    self.friends.include?(user)
   end
   
   def friends_not_on_trip(trip)

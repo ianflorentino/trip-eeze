@@ -33,22 +33,48 @@
         <%= link_to item.name, trip_path(item.trip_id), method: 'get' %> - <%= item.trip.name %></br>
       <% end %>
     <% elsif params[:tab] == 'friends' %>
-      <h4>All Friends</h4>
-      <div class="row">
-      <% @user.friends.each do |friend| %>
-        <div class="col-sm-1">
-          <%= image_tag('http://i.imgur.com/UzrXKTs.gif', height: '40', width: '40') %></br>
-          <%= link_to friend.name, user_path(friend) %>
+      <hr>
+      <ul class="nav nav-pills">
+        <li class="<%= 'active' if params[:tab2].nil? %>">
+          <%= link_to 'All Friends', user_path(@user, tab: 'friends') %>
+        </li>
+        <li class="<%= 'active' if params[:tab2] == 'pending' %>">
+          <%= link_to(user_path(@user, tab: 'friends', tab2: 'pending')) do %>
+            Pending Friend Requests<span class="badge pull-right"><%= @user.pending_friend_requests.count %></span>
+          <% end %>
+        </li>
+        <li class="<%= 'active' if params[:tab2] == 'respond' %>">
+          <%= link_to(user_path(@user, tab: 'friends', tab2: 'respond')) do %>
+            Respond to Friend Requests<span class="badge pull-right"><%= @user.friend_requests.count %></span>
+          <% end %>
+         </li>
+      <ul>
+      <% if params[:tab2].nil? %>
+        </br>
+        </br>
+        </br>
+        <div class="row">
+          <% @user.friends.each do |friend| %>
+            <div class="col-sm-1">
+              <%= image_tag('http://i.imgur.com/UzrXKTs.gif', height: '40', width: '40') %></br>
+              <%= link_to friend.name, user_path(friend) %>
+            </div>
+          <% end %>
         </div>
-      <% end %>
-      </div>
-      <h4>Pending Friend Requests</h4>
-      <% @user.pending_friend_requests.each do |friend| %>
-        <%= link_to friend.name, user_path(friend) %></br>
-      <% end %>
-      <h4>Respond to Friend Requests</h4>
-      <% @user.friend_requests.each do |friend| %>
-        <%= link_to friend.name, user_path(friend) %> - <%= link_to "Add Friend", "/friendships/#{@user.friend_requests_friendship(friend)}", method: 'put' %></br> 
+      <% elsif params[:tab2] == 'pending' %>
+        </br>
+        </br>
+        </br>
+        <% @user.pending_friend_requests.each do |friend| %>
+          <div class="col-sm-1">
+            <%= image_tag('http://i.imgur.com/UzrXKTs.gif', height: '40', width: '40') %></br>
+            <%= friend.name %>
+          </div>
+        <% end %>
+      <% elsif params[:tab2] == 'respond' %>
+        <hr> <% @user.friend_requests.each do |friend| %>
+          <%= link_to friend.name, user_path(friend) %> - <%= link_to "Add Friend", "/friendships/#{@user.friend_requests_friendship(friend)}", method: 'put' %></br> 
+        <% end %>
       <% end %>
     <% end %>
   </div>

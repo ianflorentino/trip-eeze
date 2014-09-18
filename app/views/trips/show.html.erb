@@ -14,8 +14,8 @@
 </script>
 <div class="trips-main-content">
   <ul class="users col-xs-5">
-  <h1>Friends going</h1> 
-  <hr>
+  <span class="btn btn-primary btn-sm">Attendees</span>
+  <div class="friends">
     <li>
       <div class="well well-sm">
         <div class="media">
@@ -29,7 +29,7 @@
                 </li>
                 <% end %>
                 <div class="list-group-item">
-                  Total: $<%= current_user.items_in_trip(@trip).map(&:price).reduce(&:+) %>
+                  Total: $<%= current_user.item_total(@trip) %>
                 </div>
               </ul>
           </div>
@@ -60,11 +60,9 @@
       </div>
     </li>
   <% end %>
+  </div>
   </ul>
   <div class="trips col-xs-7">
-    <h1>
-      Trip Details
-    </h1>
     <!-- Button trigger modal -->
     <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
       Add New Item
@@ -112,7 +110,7 @@
             <h4 class="modal-title" id="myModalLabel">Add Friends to Trip</h4>
           </div>
           <div class="modal-body">
-            <%= form_tag({controller: 'trips', action: 'update'}, method: 'put', add_friends: 'true') do |t| %>
+            <%= form_tag({controller: 'trips', action: 'update'}, method: 'put') do |t| %>
               <% hidden_field_tag :id, @trip.id %>  
               <%= hidden_field_tag :add_friends, 'true' %>  
               <%= collection_check_boxes(:trips, :user_ids, current_user.friends_not_on_trip(@trip), :id, :name) do |b| %>
@@ -128,30 +126,54 @@
         </div>
       </div>
     </div>
-    <hr>
-    <div class="well well-sm">
-      <h1><%= @trip.name %></h1>
-      <hr>
-      <ul class="nav nav-tabs" role="tablist">
-        <li class="<%= 'active' if params[:tab].nil? %>">
-          <%= link_to "Description", trip_path(@trip) %>
-        </li>
-        <li class="<%= 'active' if params[:tab] == 'map' %>">
-          <%= link_to "Map", trip_path(@trip, tab: 'map'), method: 'get' %>
-        </li>
-        <li class="<%= 'active' if params[:tab] == 'media' %>">
-          <%= link_to "Media", trip_path(@trip, tab: 'media') %>
-        </li>
-      </ul>
-      <% if params[:tab].nil? %>
-        <p><%= simple_format(@trip.description) %></p>
-        <%= link_to "Edit", edit_trip_path(@trip), method: :get %>
-      <% elsif params[:tab] == 'map' %>
-        <h4>Location Address</h4>
-        <div id="map">
-        </div>
-      <% elsif params[:tab] == 'media' %>
-      <% end %>
+    <div class="trip-detail default-size">
+      <div class="well well-sm">
+        <h1><%= @trip.name %></h1>
+        <hr>
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="<%= 'active' if params[:tab].nil? %>">
+            <%= link_to "Description", trip_path(@trip) %>
+          </li>
+          <li class="<%= 'active' if params[:tab] == 'map' %>">
+            <%= link_to "Map", trip_path(@trip, tab: 'map'), method: 'get' %>
+          </li>
+          <li class="<%= 'active' if params[:tab] == 'media' %>">
+            <%= link_to "Media", trip_path(@trip, tab: 'media') %>
+          </li>
+          <li class="<%= 'active' if params[:tab] == 'totals' %>">
+            <%= link_to "Totals", trip_path(@trip, tab: 'totals') %>
+          </li>
+        </ul>
+        <% if params[:tab].nil? %>
+          <p><%= simple_format(@trip.description) %></p>
+          <%= link_to "Edit", edit_trip_path(@trip), method: :get %>
+        <% elsif params[:tab] == 'map' %>
+          <h4>Location Address</h4>
+          <div id="map">
+          </div>
+        <% elsif params[:tab] == 'media' %>
+        <% elsif params[:tab] == 'totals' %>
+          <div class="panel panel-default trip-view-port">
+            <table class="table table-hover">
+              <tr class="panel-heading">
+                <th>Items</th>
+                <th>Paid by</th>
+                <th>Cost</th>
+              </tr>
+              <% @trip.items.each do |item| %>
+              <tr>
+                <td><%= item.name %></td>
+                <td><%= item.user.name %></td>
+                <td><%= "$#{item.price}" %></td>
+              <% end %>
+              </tr>
+                <th><%= "Each person should pay $#{(trip_total(@trip)/number_of_trip_attendees(@trip))}" %></th>
+                <th>Trip Total</th>
+                <th><%= "$#{trip_total(@trip)}" %></th>   
+            </table>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

@@ -5,4 +5,6 @@ class Item
   
   belongs_to :user
   belongs_to :trip  
+
+  validates_presence_of :name, :price
 end

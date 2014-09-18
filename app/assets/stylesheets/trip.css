@@ -12,6 +12,12 @@
   float: left;
 }
 
+.friends {
+  margin-top: 5px;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
 .trip-new {
   max-width: 750px;
 }
@@ -34,3 +40,29 @@ h1 {
   height: 200px;
 }
 
+.your-well {
+  display: inline;
+  vertical-align: top;
+}
+
+.buttons {
+  text-align: right;
+}
+
+.top-tabs {
+  background-color: rgba(96, 87, 101, 1);
+  color: white;
+}
+
+.trip-detail {
+  margin-top: 5px;
+}
+
+.trip-view-port {
+  max-height: 60%;
+  overflow-y: auto;
+}
+
+.well-sm {
+  min-height: 60%;
+}

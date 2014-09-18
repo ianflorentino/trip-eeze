@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  helper_method :logged_in?, :current_user, :login, :exclude_current_user
+  helper_method :logged_in?, :current_user, :login, :exclude_current_user, :trip_total, :number_of_trip_attendees
 
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
@@ -25,4 +25,13 @@ class ApplicationController < ActionController::Base
   def exclude_already_added_to_trip(ary, trip)
     ary.select{ |f| f.trip_id != trip.id }
   end 
+  
+  def trip_total(trip)
+    trip.items.map(&:price).reduce(&:+)
+  end
+  
+  def number_of_trip_attendees(trip)
+    trip.users.count
+  end
+  
 end
