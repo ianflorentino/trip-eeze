@@ -37,7 +37,7 @@ h1 {
 }
 
 #map {
-  height: 200px;
+  height: 60%;
 }
 
 .your-well {
@@ -65,4 +65,25 @@ h1 {
 
 .well-sm {
   min-height: 60%;
+}
+
+.static-well {
+  height: 90vh;
+  background-color: #F6F7F8;
+  border-radius: 3px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  padding: 10px;
+}
+
+#description {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  padding: 20px;
+}
+
+#calendar {
+  display: inline-block;
 }

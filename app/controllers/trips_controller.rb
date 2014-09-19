@@ -8,6 +8,7 @@ class TripsController < ApplicationController
   def show
     @trip = Trip.find(params[:id])
     @item = Item.new
+    @checklist = Checklist.new
   end
   
   def new
@@ -56,7 +57,7 @@ class TripsController < ApplicationController
   private
   
   def trip_params
-    params.require(:trip).permit(:name, :description)
+    params.require(:trip).permit(:name, :description, :address)
   end
 
   def find_trip

@@ -8,6 +8,7 @@ Tripeeze::Application.routes.draw do
   post '/trips/add_friend/', to: 'trips#add_friend'
 
   resources :friendships, only:[:create, :update] 
+  resources :checklists, only:[:create, :update, :destroy]
   resources :users
   resources :trips
   resources :items

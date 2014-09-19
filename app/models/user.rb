@@ -9,6 +9,7 @@ class User
   has_and_belongs_to_many :trips
   has_many :friendships, inverse_of: :owner
   has_many :items
+  has_many :checklists
   
   validates_presence_of :name, :email, :password_digest
   validates_uniqueness_of :email

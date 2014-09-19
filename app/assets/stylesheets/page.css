@@ -13,11 +13,18 @@ body {
      overflow: hidden;
 }
 
-
-.homepage > h1 {
+.overlay {
+  background-color: #e3e3e3;
   position: absolute;
-  font-size: 125px;
-  z-index: 1;
+  z-index: -10;
+  opacity: 0.95;
+  height: 100%;
+  width: 100%;
+}
+
+.main-heading {
+  position: absolute;
+  z-index: 10;
   color: white;
   text-align: center;
   right: 0;
@@ -26,25 +33,18 @@ body {
   margin-right: auto;
 }
 
-.homepage > p {
-  text-align: center;
-  right: 0;
-  left: 0;
-  margin-left: auto;
-  margin-right: auto;
-  z-index: 1000;
-  color: white;
+.main-heading > h1 {
+  font-size: 150px;
 }
-
 
 .homepage>p>a {
   color:white;
 }
 
 .register-btn {
-  margin-top: 100px;
 }
 
 #myModal{
   opacity: 0.95;
 }
+

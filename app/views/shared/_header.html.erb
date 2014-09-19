@@ -8,19 +8,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-  <%= link_to "Home", root_path, class:"navbar-brand" %>
 </div>
 
 <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <% if !logged_in? %>
-      <%= form_tag({controller: "sessions", action: "create"}, method: "post", class: "navbar-form navbar-right form-group") do %>
+      <%= form_tag({ controller: "sessions", action: "create" }, class: "navbar-form navbar-right form-group") do %>
         <%= text_field_tag(:email, nil, class:"form-control") %>
         <%= password_field_tag(:password, nil, class:"form-control") %>
         <%= submit_tag("login", class:"btn btn-primary") %>
       <% end %> 
     <% end %>
-    <% if logged_in? %>
+    <% if logged_in? && !current_page?(controller: 'pages', action: 'front') %>
       <ul class="nav navbar-nav">
         <li><%= link_to "New Trip", new_trip_path, method: "get" %></li>
       </ul>
