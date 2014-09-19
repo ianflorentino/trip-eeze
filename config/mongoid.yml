@@ -69,7 +69,7 @@ test:
         retry_interval: 0
 
 
- production:
-   sessions:
-    default:
-        uri: <%= ENV['mongodb://heroku:KwLoWwNUh_v1UhbxnjmRvx_lKfF5jAjbILQHB87OPXnRcJH9TiVvDeLYM5lS3pqT1EDtLJ7K6bqYa3Pt10fn8g@kahana.mongohq.com:10003/a'] %>
+production:
+  sessions:
+   default:
+       uri: <%= ENV['mongodb://heroku:KwLoWwNUh_v1UhbxnjmRvx_lKfF5jAjbILQHB87OPXnRcJH9TiVvDeLYM5lS3pqT1EDtLJ7K6bqYa3Pt10fn8g@kahana.mongohq.com:10003/a'] %>
