@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end 
   
   def create
-    @user = User.new(params.require(:user).permit(:name, :email, :password))
+    @user = User.new(params.require(:user).permit(:name, :avatar, :email, :password))
     if @user.save
       login(@user)
       current_user 

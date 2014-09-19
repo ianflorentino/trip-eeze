@@ -7,11 +7,11 @@
   </div>
   <div class="form-group">
     <%= f.label :address %>
-    <%= f.text_field :address, class: "form-control" %>
+    <%= f.text_field :address, class: "form-control", placeholder: "Please include a valid address, otherwise it will not show on the map" %>
   </div>
   <div class="form-group">
     <%= f.label :description %>
-    <%= f.text_area :description, rows: 8, id: "edit-trip", class: "form-control" %>
+    <%= f.text_area :description, rows: 8, id: "edit-trip", class: "form-control", placeholder: "Include the dates here and add your friends to the trip after finishing this part!" %>
   </div>
     <%= f.submit "Create Trip", class: "btn btn-primary" %>
   <% end %> 

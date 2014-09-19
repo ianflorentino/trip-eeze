@@ -9,6 +9,9 @@ gem 'bootstrap-sass', '~>3.2.0'
 
 gem 'bootstrap-wysihtml5-rails', '~>0.3.2.100'
 
+gem "mongoid-paperclip", :require => 'mongoid_paperclip'
+gem 'aws-sdk'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.2'
 

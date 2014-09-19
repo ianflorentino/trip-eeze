@@ -2,9 +2,16 @@ require 'bcrypt'
 
 class User
   include Mongoid::Document
+  include Mongoid::Paperclip
+
   field :name, type: String
   field :email, type: String
   field :password_digest, type: String
+  
+  attr_accessor :default_style, :default_url 
+ 
+  has_mongoid_attached_file :avatar, :styles => { :medium => "100x100>", :small => "60x60>", :thumb => "40x40>" }, :default_url => "http://i.imgur.com/UzrXKTs.gif", :default_style => :small
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
   has_and_belongs_to_many :trips
   has_many :friendships, inverse_of: :owner

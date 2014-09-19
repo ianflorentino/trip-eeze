@@ -41,7 +41,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <li>
       <div class="well well-sm">
         <div class="media">
-          <%= image_tag('http://i.imgur.com/UzrXKTs.gif', class: 'pull-left', height: '60', width: '60') %>
+          <%= image_tag(current_user.avatar, class: 'pull-left', height: '60', width: '60') %>
           <div class="media-body">
             <h4 class="media-heading">You</h4>
               <%= current_user.email %>
@@ -54,7 +54,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
       <div class="well well-sm">  
         <div class="media">
           <%= link_to(user_path(user), class: 'pull-left') do %>
-            <%= image_tag('http://i.imgur.com/UzrXKTs.gif', height: '60', width: '60') %>
+            <%= image_tag(user.avatar, height: '60', width: '60') %>
           <% end %>
           <div class="media-body">
             <h4 class="media-heading"><%= user.name %></h4>
@@ -153,7 +153,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
               <% hidden_field_tag :id, @trip.id %>  
               <%= hidden_field_tag :add_friends, 'true' %>  
               <%= collection_check_boxes(:trips, :user_ids, current_user.friends_not_on_trip(@trip), :id, :name) do |b| %>
-              <%= b.check_box %> <%= image_tag('http://i.imgur.com/UzrXKTs.gif', height: '40', width: '40') %> <%= b.label %></br>
+              <%= b.check_box %> <%= image_tag(b.object.avatar, height: '40', width: '40') %> <%= b.label %></br>
               <hr>
               <% end %>
           </div>
@@ -210,12 +210,14 @@ google.maps.event.addDomListener(window, 'load', initialize);
                 <td><%= checklist.user_id %></td>
               <% end %>
               </tr>
+                <th></th>
+                <th>Total Budgeted</th>
+                <th>$</th>
             </table>
           </div>
         <% elsif params[:tab] == 'map' %>
           <h5 id="address"><%= @trip.address %></h5>
             <%= link_to "Edit", edit_trip_path(@trip), method: :get, class: 'pull-right' %>
-          <hr>
           <div id="map">
           </div>
         <% elsif params[:tab] == 'media' %>
@@ -234,7 +236,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
                 <td><%= "$#{item.price}" %></td>
               <% end %>
               </tr>
-                <th><%= "Each person should pay $#{(trip_total(@trip)/number_of_trip_attendees(@trip))}" %></th>
+                <th><%= "Suggested Pay Per Person $#{even_split(@trip)}" %></th>
                 <th>Trip Total</th>
                 <th><%= "$#{trip_total(@trip)}" %></th>   
             </table>
