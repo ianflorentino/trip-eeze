@@ -12,6 +12,12 @@ gem 'bootstrap-wysihtml5-rails', '~>0.3.2.100'
 gem "mongoid-paperclip", :require => 'mongoid_paperclip'
 gem 'aws-sdk'
 
+gem 'rails_12factor', group: :production
+
+group :production do
+  gem "thin"
+end
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.2'
 
