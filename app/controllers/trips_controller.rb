@@ -18,6 +18,7 @@ class TripsController < ApplicationController
   def create
     @trip = Trip.new(trip_params)
     @trip.user_ids << current_user.id 
+    @trip.admin = current_user.id
 
     if @trip.save
       redirect_to trip_path(@trip)
@@ -29,7 +30,7 @@ class TripsController < ApplicationController
   def edit; end
   
   def update
-    if params[:add_friends] 
+    if params[:add_friends]
       params[:trips][:user_ids].delete("")
       if params[:trips][:user_ids].present?
         params[:trips][:user_ids].each do |f|
@@ -46,7 +47,23 @@ class TripsController < ApplicationController
         return redirect_to trip_path(@trip, @item)
       end
     end
-   
+  
+    if params[:delete_friend]
+      @trip.user_ids.delete(BSON::ObjectId.from_string(params[:delete_friend]))
+      
+      if @trip.update!
+        @item = Item.new
+        return redirect_to trip_path(@trip, @item)
+      else
+        render :show
+      end
+    else
+      @item = Item.new
+      return redirect_to trip_path(@trip, @item)
+    end
+    
+    
+     
     if @trip.update_attributes(trip_params)
       redirect_to trip_path(@trip)
     else
@@ -54,6 +71,12 @@ class TripsController < ApplicationController
     end
   end
   
+  def destroy
+    @trip = Trip.find(params[:id])
+    @trip.destroy
+    redirect_to user_path(current_user)
+  end
+
   private
   
   def trip_params

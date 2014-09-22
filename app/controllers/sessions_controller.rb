@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
       login(user)
       redirect_to user_path(user)
     else
+      flash[:error] = "Something is wrong with your email and password combination"
       render :root
     end
   end

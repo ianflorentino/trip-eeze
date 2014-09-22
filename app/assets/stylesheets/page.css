@@ -1,9 +1,15 @@
+html, body {
+  height: 100%;
+}
 body {
   text-align: center;
   color: black;
   position: relative;
 }
 
+.homepage {
+  height: 100%;
+}
 
 #videobcg { 
      position: absolute;
@@ -13,15 +19,6 @@ body {
      overflow: hidden;
 }
 
-.overlay {
-  background-color: #e3e3e3;
-  position: absolute;
-  z-index: -10;
-  opacity: 0.95;
-  height: 100%;
-  width: 100%;
-}
-
 .main-heading {
   position: absolute;
   z-index: 10;
@@ -29,6 +26,7 @@ body {
   text-align: center;
   right: 0;
   left: 0;
+  top: 30%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -41,10 +39,22 @@ body {
   color:white;
 }
 
-.register-btn {
-}
-
 #myModal{
   opacity: 0.95;
+}
+
+#transparent {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  background-color: black;
+  opacity: 0.5;
+}
+
+.navbar {
+  margin: 0;
+  border-radius: 0px;
 }
 

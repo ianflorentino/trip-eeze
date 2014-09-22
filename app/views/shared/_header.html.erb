@@ -14,8 +14,8 @@
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <% if !logged_in? %>
       <%= form_tag({ controller: "sessions", action: "create" }, class: "navbar-form navbar-right form-group") do %>
-        <%= text_field_tag(:email, nil, class:"form-control") %>
-        <%= password_field_tag(:password, nil, class:"form-control") %>
+        <%= text_field_tag(:email, nil, class:"form-control", placeholder: "Email") %>
+        <%= password_field_tag(:password, nil, class:"form-control", placeholder: "Password") %>
         <%= submit_tag("login", class:"btn btn-primary") %>
       <% end %> 
     <% end %>

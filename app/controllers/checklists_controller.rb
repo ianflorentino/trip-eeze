@@ -12,16 +12,31 @@ class ChecklistsController < ApplicationController
   end
   
   def update
-    @trip = Trip.find(params[:trip_id])
-    @checklist = Checklist.find(params[:id])
-    @checklist.user_id = current_user.id
-    @checklist.checked = true
-  
-    if @checklist.update!
-      redirect_to trip_path(@trip, tab: 'checklist')
+    if params[:add_checklist] == 'true'
+      @checklist = Checklist.find(params[:id])
+      @checklist.user_id = current_user.id 
+     
+      if @checklist.update! 
+        respond_to do |format|
+          format.js { render 'trips/update' }
+        end
+      end
+    elsif params[:add_checklist] == 'false'
+      @checklist = Checklist.find(params[:id])
+      @checklist.user_id = nil 
+      
+      if @checklist.update!
+        respond_to do |format|
+          format.js { render 'trips/update' }
+        end
+      end
     else
-      render 'trip/show'
-    end
+      @checklist = Checklist.find(params[:id])
+      if @checklist.update!
+        redirect_to trip_path(params[:tripId], tab: 'checklist')
+      else
+        render 'trip/show'
+      end
+     end
   end
-  
 end

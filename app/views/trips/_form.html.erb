@@ -1,0 +1,19 @@
+<div class="well container trip-new">
+<%= render "shared/errors", obj: @trip %>
+  <h1> <%= title %> Trip</h1>
+  <%= form_for @trip do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :address %>
+    <%= f.text_field :address, class: "form-control", placeholder: "Please include a valid address, otherwise it will not show on the map" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, rows: 8, id: "edit-trip", class: "form-control", placeholder: "Include the dates here and add your friends to the trip after finishing this part!" %>
+  </div>
+    <%= f.submit button, class: "btn btn-primary" %>
+  <% end %> 
+</div>

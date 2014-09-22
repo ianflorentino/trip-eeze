@@ -1,7 +1,7 @@
 <div class="users-main-content">
-  <div class="well">  
+  <div class="static-well">  
     <div class="media">
-      <%= image_tag(current_user.avatar.url(:medium), class: 'pull-left') %>
+      <%= image_tag(@user.avatar.url(:medium), class: 'pull-left') %>
       <div class="media-body">
         <h1 class="media-heading"><%= @user.name %></h1>
         <p>
@@ -21,38 +21,44 @@
       <li class="<%= 'active' if params[:tab] == 'friends' %>">
         <%= link_to "Friends", user_path(@user, tab: 'friends') %>
       </li>
+      <li class="<%= 'active' if params[:tab] == 'friend_request' %>">
+        <%= link_to ("Friend Requests <span class='badge pull-right'>#{@user.friend_requests.count}</span>").html_safe, user_path(@user, tab: 'friend_request') %>
+      </li>
     </ul>
     <% if params[:tab].nil? %>
-      <hr>
-      <% @user.trips.each do |trip| %>
-        <%= link_to trip.name, trip_path(trip.id), method: 'get' %> - <%= trip.id.generation_time %></br>
-      <% end %>
+      </br>
+          <div class="panel panel-default trip-view-port">
+            <table class="table table-hover clist">
+              <tr class="panel-heading">
+                <th>Trips</th>
+                <th>Date Created</th>
+              </tr>
+              <% @user.trips.each do |trip| %>
+              <tr>
+                <td><%= link_to trip.name, trip_path(trip.id), method: 'get' %></td>
+                <td><%= trip.id.generation_time %></td>
+              </tr>
+              <% end %>
+            </table>
+          </div>
     <% elsif params[:tab] == 'items' %>
-      <hr>
-      <% @user.items.each do |item| %>
-        <%= link_to item.name, trip_path(item.trip_id), method: 'get' %> - <%= item.trip.name %></br>
-      <% end %>
+      <br>
+          <div class="panel panel-default trip-view-port">
+            <table class="table table-hover clist">
+              <tr class="panel-heading">
+                <th>Items</th>
+                <th>Corresponding Trip</th>
+              </tr>
+              <% @user.items.each do |item| %>
+              <tr>
+                <td><%= link_to item.name, trip_path(item.trip_id), method: 'get' %></td>
+                <td><%= item.trip.name %></td>
+              </tr>
+              <% end %>
+            </table>
+          </div>
     <% elsif params[:tab] == 'friends' %>
       <hr>
-      <ul class="nav nav-pills">
-        <li class="<%= 'active' if params[:tab2].nil? %>">
-          <%= link_to 'All Friends', user_path(@user, tab: 'friends') %>
-        </li>
-        <li class="<%= 'active' if params[:tab2] == 'pending' %>">
-          <%= link_to(user_path(@user, tab: 'friends', tab2: 'pending')) do %>
-            Pending Friend Requests<span class="badge pull-right"><%= @user.pending_friend_requests.count %></span>
-          <% end %>
-        </li>
-        <li class="<%= 'active' if params[:tab2] == 'respond' %>">
-          <%= link_to(user_path(@user, tab: 'friends', tab2: 'respond')) do %>
-            Respond to Friend Requests<span class="badge pull-right"><%= @user.friend_requests.count %></span>
-          <% end %>
-         </li>
-      <ul>
-      <% if params[:tab2].nil? %>
-        </br>
-        </br>
-        </br>
         <div class="row">
           <% @user.friends.each do |friend| %>
             <div class="col-sm-1">
@@ -61,21 +67,11 @@
             </div>
           <% end %>
         </div>
-      <% elsif params[:tab2] == 'pending' %>
-        </br>
-        </br>
-        </br>
-        <% @user.pending_friend_requests.each do |friend| %>
-          <div class="col-sm-1">
-            <%= image_tag(friend.avatar, height: '40', width: '40') %></br>
-            <%= friend.name %>
-          </div>
+    <% elsif params[:tab] == 'friend_request' %>
+        <hr>
+        <% @user.friend_requests.each do |friend| %>
+        <%= link_to friend.name, user_path(friend) %> - <%= link_to "Add Friend", "/friendships/#{@user.friend_requests_friendship(friend)}", method: 'put' %></br> 
         <% end %>
-      <% elsif params[:tab2] == 'respond' %>
-        <hr> <% @user.friend_requests.each do |friend| %>
-          <%= link_to friend.name, user_path(friend) %> - <%= link_to "Add Friend", "/friendships/#{@user.friend_requests_friendship(friend)}", method: 'put' %></br> 
-        <% end %>
-      <% end %>
     <% end %>
   </div>
 </div>

@@ -7,6 +7,7 @@ class ItemsController < ApplicationController
     @item.trip_id = params[:trip]   
  
     if @item.save
+      flash[:notice] = "New Item Created"
       redirect_to trip_path(params[:trip])
     else
       render 'trips/show'   

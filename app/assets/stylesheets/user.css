@@ -40,3 +40,13 @@ body {
 .search-img {
   margin-right: 10px
 }
+
+.static-well {
+  height: 90vh;
+  background-color: #F6F7F8;
+  border-radius: 3px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  padding: 10px;
+}

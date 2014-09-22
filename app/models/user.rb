@@ -18,8 +18,9 @@ class User
   has_many :items
   has_many :checklists
   
-  validates_presence_of :name, :email, :password_digest
-  validates_uniqueness_of :email
+  validates :email, presence: true, uniqueness: true
+  validates :name, presence: true
+  validates :password_digest, presence: true
 
   ###### FOR AUTHENTICATION ######
   def password=(new_password)

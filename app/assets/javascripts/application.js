@@ -19,7 +19,11 @@
 
 
 $(document).ready(function(){
+
   $('#edit-trip').each(function(i, elem) {
     $(elem).wysihtml5();
   });
+  
+
+
 });

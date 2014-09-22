@@ -9,6 +9,9 @@ gem 'bootstrap-sass', '~>3.2.0'
 
 gem 'bootstrap-wysihtml5-rails', '~>0.3.2.100'
 
+gem 'pry-rails', :group => :development
+gem 'pry'
+
 gem "mongoid-paperclip", :require => 'mongoid_paperclip'
 gem 'aws-sdk'
 

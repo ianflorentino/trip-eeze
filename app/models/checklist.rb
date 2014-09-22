@@ -6,4 +6,7 @@ class Checklist
   
   belongs_to :trip
   belongs_to :user
+  
+  validates :name, presence: true
+  validates :budget, presence: true
 end

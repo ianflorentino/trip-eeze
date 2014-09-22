@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  helper_method :logged_in?, :current_user, :login, :exclude_current_user, :trip_total, :number_of_trip_attendees, :even_split
+  helper_method :logged_in?, :current_user, :login, :exclude_current_user, :trip_total, :number_of_trip_attendees, :even_split, :checklist_total
 
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
@@ -36,5 +36,9 @@ class ApplicationController < ActionController::Base
   
   def even_split(trip)
     trip_total(trip)/number_of_trip_attendees(trip)
+  end
+  
+  def checklist_total(trip)
+    trip.checklists.map(&:budget).reduce(&:+)
   end
 end
